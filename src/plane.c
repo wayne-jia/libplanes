@@ -288,7 +288,7 @@ int plane_apply_alpha(struct plane_data* plane, uint32_t alpha)
 int plane_set_rotate(struct plane_data* plane, uint32_t degrees)
 {
 	if (plane->rotate_degrees % 90 ||
-	    plane->rotate_degrees > 270 ||
+	    //plane->rotate_degrees > 270 ||
 	    plane->rotate_degrees < 0) {
 		LOG("error: failed to set plane rotate degrees\n");
 		return -1;
@@ -342,7 +342,8 @@ int plane_apply(struct plane_data* plane)
 {
 	struct kms_framebuffer* fb = plane->fbs[plane->front_buf];
 
-	if (plane->rotate_degrees != plane->rotate_degrees_applied)
+	if ((plane->rotate_degrees != plane->rotate_degrees_applied)
+		 || plane->rotate_degrees > 270)
 		plane_apply_rotate(plane, plane->rotate_degrees);
 
 	if (plane->alpha != plane->alpha_applied)
